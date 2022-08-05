@@ -4,7 +4,8 @@ import './App.css';
 import Header from './Header';
 import AddContact from './AddContact';
 import ContactList from './ContactList/ContactList';
-import ContactDetail from './Contactdetail';
+import ContactDetail from './ContactDetail';
+
 
 function App() {
   const [contacts, setContacts] = useState([]);
@@ -41,8 +42,9 @@ function App() {
         <Routes>
           <Route path="/add" element={<AddContact addContactHandler={addContactHandler}/>}/>
           <Route path="/"  element={<ContactList contacts={contacts} getContactId={removeContactHandler} />}/>
-          <Route path="/contact/:id" element={<ContactDetail/>}/>
+          <Route path="/contact/:id" element={<ContactDetail />}/>
         </Routes>
+        
       </BrowserRouter>
       {/* <AddContact addContactHandler={addContactHandler} />
       <ContactList contacts={contacts} deleteContactHandler={removeContactHandler} />  */}
