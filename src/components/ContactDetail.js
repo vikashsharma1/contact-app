@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLocation, useMatch, useParams } from 'react-router-dom';
-// import { Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 
 const ContactDetail = () => {
@@ -17,9 +17,9 @@ const ContactDetail = () => {
             <div className="description">{email}</div>
           </div>
           <div className="center-btn" >
-            {/* <link to="/" >
+            <Link to="/" >
             <button className="center blue-btn">back to contact list</button>
-            </link> */}
+            </Link>
           </div>
         </div>
       </div>
