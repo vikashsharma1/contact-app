@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "..\\basic-app"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "..\\reactrouter-demo"
+		},
+		{
+			"path": "..\\notes"
+		}
+	],
+	"settings": {}
+}
