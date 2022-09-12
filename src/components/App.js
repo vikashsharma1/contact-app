@@ -10,9 +10,11 @@ import ContactDetail from './ContactDetail';
 
 
 function App() {
+ 
   const [contacts, setContacts] = useState([]);
   const [searchTerm,setSearchTerm]=useState("");
   const [searchResults,setSearchResults]=useState([""]);
+
 
   // retreiveContacts
   const retreiveContacts = async () => {
@@ -48,51 +50,44 @@ function App() {
       return contact.id !== id;
     });
     setContacts(newContactList);
-  }
-  const searchHandler=(searchTerm)=>{
-   setSearchTerm(searchTerm);
-   if(searchTerm!==""){
-   const newContactList=contacts.filter((contact)=>{
-    return Object.values(contact)
-    .join("")
-    .toLowerCase()
-    .includes(searchTerm.toLowerCase);
-  //  return;
-   })
-   setSearchResults(newContactList);
-   }else{
-   setSearchResults(contacts);
-   }
   };
 
+  const searchHandler = (filterValue) => {
+    setSearchTerm(filterValue);
+    if (filterValue !== "") {
+      const newContactList = contacts.filter(contact =>
+        Object.values(contact)
+          .join("")
+          .toLowerCase()
+          .includes(filterValue.toLowerCase())
+      );
+      setSearchResults(newContactList);
+    }
+    else {
+      setSearchResults(searchResults);
+    }
+  }
+
   useEffect(() => {
-    // const retrieveContacts = JSON.parse(localStorage.getItem("contacts"))
-    // if (retrieveContacts) {
-    //   setContacts(retrieveContacts);
-    const getAllContacts = async () => {
+    (async () => {
       const allContacts = await retreiveContacts();
-      if (allContacts) setContacts(allContacts);
-    };
-    getAllContacts();
+      // console.log("--contact---", allContacts);
+      setContacts(allContacts);
+    })()
   }, []);
 
-  useEffect(() => {
-    if (contacts && contacts.length > 0) {
-      //   localStorage.setItem("contacts", JSON.stringify(contacts));
-    }
-
-  }, [contacts]);
-
-  return (
+return (
     <div className="ui container">
       <Header />
       <BrowserRouter>
         <Routes>
           <Route path="/add" element={<AddContact addContactHandler={addContactHandler} />} />
           <Route path="/edit" element={<EditContact updateContactHandler={updateContactHandler} />} />
-          <Route path="/" element={<ContactList contacts={ searchTerm.length <1 ? contacts : searchResults} getContactId={removeContactHandler} />} 
-          term={searchTerm}
-          searchKeyword={searchHandler}/>
+          <Route path="/" element={<ContactList 
+           contacts={searchTerm.length <1 ? contacts : searchResults} getContactId={removeContactHandler} 
+          term={searchTerm} searchKeyword={searchHandler} />
+  }
+  />
           <Route path="/contact/:id" element={<ContactDetail />} />
         </Routes>
 
@@ -103,5 +98,6 @@ function App() {
   )
 
 };
+
 
 export default App;

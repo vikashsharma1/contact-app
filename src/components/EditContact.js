@@ -53,6 +53,4 @@ const EditContact = (props) => {
   );
 }
 
-
-
 export default memo(EditContact);
