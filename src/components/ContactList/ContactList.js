@@ -15,21 +15,17 @@ const ContactList = (props) => {
           props.getContactId(id);
      };
      // console.log("---abc--",props);
-     const renderContactList = contacts.map((contact,i) => {
+     const renderContactList = contacts.map((contact )=> {
           return (
                <ContactCard contact={contact}
                     clickHandler={deleteContactHandler}
                     key={contact.id} />
           )
      });
-     // console.log("-------", renderContactList);
-
-
+     
      const getSearchTerm = e => {
           props.searchKeyword(e.target.value);
      };
-
-          // console.log("--------", inputEl.current.value);
 
      return (
           <div className="main">

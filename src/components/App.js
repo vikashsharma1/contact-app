@@ -7,20 +7,48 @@ import AddContact from './AddContact';
 import EditContact from './EditContact';
 import ContactList from './ContactList/ContactList';
 import ContactDetail from './ContactDetail';
+import { connect } from 'react-redux';
+import { contactDetail } from '../Redux/Action/EmployAction'
 
 
-function App() {
- 
+function App(props) {
+
   const [contacts, setContacts] = useState([]);
-  const [searchTerm,setSearchTerm]=useState("");
-  const [searchResults,setSearchResults]=useState([""]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([""]);
 
+  useEffect(() => {
+    (async () => {
+      // get data from redux
+      const allContacts = await retreiveContacts();
+      // console.log("--contact---", allContacts);
+      setContacts(allContacts);
+    })()
+  }, []);
 
-  // retreiveContacts
   const retreiveContacts = async () => {
-    const response = await api.get("/contacts");
-    return response.data;
+    const res = await api.get("/contacts");
+    // save into redux
+    props.dispatchGetContactDetail(res.data);
   };
+
+
+  console.log("---contactDataFromStore---", props?.contactDataFromStore?.contactInfo?.contactDetail?.contacts);
+
+  // const {
+  //   contacts: tempContacts = []
+  // } = props?.contactDataFromStore?.contactInfo;
+  
+
+  console.log("----props------", props)
+const tempContacts = props?.contactDataFromStore?.contactInfo?.contactDetail?.contacts;
+
+  useEffect(() => {
+    setContacts(tempContacts);
+  }, [tempContacts]);
+
+
+
   const random = () => {
     return Math.random();
   }
@@ -32,15 +60,15 @@ function App() {
       ...contact,
     }
 
-    const response = await api.post("/contacts", request)
-    setContacts([...contacts, response.data]);
+    const res = await api.post("/contacts", request)
+    setContacts([...contacts, res.data]);
   };
 
   const updateContactHandler = async (contact) => {
-    const response = await api.put(`/contacts/${contact.id}`, contact);
-    const { id } = response.data;
-      setContacts(contacts.map(contact => {
-      return contact.id === id ? { ...response.data,  } : contact;
+    const res = await api.put(`/contacts/${contact.id}`, contact);
+    const { id } = res.data;
+    setContacts(contacts.map(contact => {
+      return contact.id === id ? { ...res.data, } : contact;
     }));
   };
 
@@ -68,26 +96,18 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    (async () => {
-      const allContacts = await retreiveContacts();
-      // console.log("--contact---", allContacts);
-      setContacts(allContacts);
-    })()
-  }, []);
-
-return (
+  return (
     <div className="ui container">
       <Header />
       <BrowserRouter>
         <Routes>
           <Route path="/add" element={<AddContact addContactHandler={addContactHandler} />} />
           <Route path="/edit" element={<EditContact updateContactHandler={updateContactHandler} />} />
-          <Route path="/" element={<ContactList 
-           contacts={searchTerm.length <1 ? contacts : searchResults} getContactId={removeContactHandler} 
-          term={searchTerm} searchKeyword={searchHandler} />
-  }
-  />
+          {contacts && <Route path="/" element={<ContactList
+            contacts={searchTerm.length < 1 ? contacts : searchResults} getContactId={removeContactHandler}
+            term={searchTerm} searchKeyword={searchHandler} />
+          }
+          />}
           <Route path="/contact/:id" element={<ContactDetail />} />
         </Routes>
 
@@ -96,8 +116,14 @@ return (
       <ContactList contacts={contacts} deleteContactHandler={removeContactHandler} />  */}
     </div>
   )
-
 };
 
+const mapStateToProps = (state) => ({
+  contactDataFromStore: state
+})
+const mapDispatchToProps = (dispatch) => ({
+  dispatchGetContactDetail: (contact) => dispatch(contactDetail(contact))
+})
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
