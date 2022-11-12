@@ -1,11 +1,16 @@
-import contactReducer from '../Reducer/contactReducer';
-// import { createStore } from 'redux';
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../../Sagas/rootSaga';
+import rootReducer from '../Reducer/rootReducer';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
-  reducer: {
-    contactInfo: contactReducer
-  }
-  })
+  reducer: rootReducer,
+  middleware: [sagaMiddleware]
+})
+sagaMiddleware.run(rootSaga);
 
 export default store;
+
+
