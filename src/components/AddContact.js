@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 // import ContactList from "./ContactList";
 
 
@@ -10,6 +10,11 @@ const AddContact = (props) => {
     return Math.random();
   }
 
+  useEffect(()=>{
+    console.log('-----AddContact----')
+    alert('Contact added successfully');
+  })
+
   const add = (e) => {
     e.preventDefault();
     if (!name || !email || name === "" || email === "") {
@@ -20,6 +25,7 @@ const AddContact = (props) => {
     setName("");
     setEmail("");
   }
+
   return (
     <div className="ui main">
       <h2 style={{ marginTop: "20px" }}> Add Contact </h2>
@@ -31,12 +37,9 @@ const AddContact = (props) => {
         <div className="field">
           <label> email </label>
           <input type="text" name="email" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
-
           <button className="ui button blue" style= {{ marginTop: "10px" }}> Add </button>
         </div>
-
       </form>
-
     </div>
 
   );

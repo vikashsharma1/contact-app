@@ -11,7 +11,6 @@ export const retreiveContacts = async () => {
     throw error;
   }
 }
-
 export const addContact = async (contact) => {
   try {
     // console.log("------",contact);
@@ -34,6 +33,7 @@ export const updateContact=async(contact)=>{
 }
 export const deleteContact=async(id)=>{
   try{
+    console.log("------",` /contacts/${id}`)
    const res= await api.delete(`/contacts/${id}`)
     //  const res = contacts.filter((contact) => {
      return res;

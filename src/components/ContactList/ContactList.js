@@ -6,16 +6,16 @@ import "./contactList.css";
 
 const ContactList = (props) => {
      const {
-          contacts = {},
+          contacts = [],
           term
      } = props;
-
+   console.log("----",contacts);
      // const inputEl = useRef("");
       const deleteContactHandler = (id) => {
           props.getContactId(id);
      };
-     // console.log("---abc--",props);
-     const renderContactList = contacts.map((contact )=> {
+     console.log("---abc--",props);
+     const renderContactList = contacts.length>0 && contacts?.map((contact )=> {
           return (
                <ContactCard contact={contact}
                     clickHandler={deleteContactHandler}
