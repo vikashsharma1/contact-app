@@ -12,6 +12,10 @@ import { putContactDetails } from '../../Redux/Action/contactAction';
 import { deleteContactDetails } from '../../Redux/Action/contactAction';
 
 import TestProgram from '../TestProgram/ToDoList';
+import ParentApp from '../TestProgram/Hoc/ParentApp';
+// import Autocomplete from '../TestProgram/Hoc/ParentApp';
+// import ErrorBoundaryProgram from '../TestProgram/ErrorBoundaryProgram';
+
 
 function App(props) {
   // const [contacts, setContacts] = useState([]);
@@ -71,6 +75,10 @@ function App(props) {
           />}
           <Route path="/contact/:id" element={<ContactDetail />} />
           <Route path="/test" element={<TestProgram/>}/>
+          <Route path="hoc" element={<ParentApp/>}/>
+          {/* <Route path="hoc" element={<Autocomplete/>}/> */}
+          {/* <Route path="/error" element={<ErrorBoundaryProgram/>}/> */}
+          
         </Routes>
 
       </BrowserRouter>
